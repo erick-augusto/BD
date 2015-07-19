@@ -149,15 +149,15 @@ public class Disciplina extends javax.swing.JFrame {
             Connection conect = DriverManager.getConnection("jdbc:mysql://localhost/trabalho?user=root");
             Statement st = conect.createStatement();
 
-            st.execute("insert into disciplina values(" + txtdisciplina.getText() + "," + txtcodigo.getText() + "," + txtT.getText() + ","
-                    + txtP.getText() + "," + txtI.getText() + ")");
+            st.executeUpdate("insert into disciplina (cod_disciplina, nome_disciplina, t, p , i) values('" + txtcodigo.getText() + "','" 
+                    + txtdisciplina.getText() + "','" + txtT.getText() + "','" + txtP.getText() + "','" + txtI.getText() + "')");
 
-            st.execute("select nome_disciplina from disciplina where nome_disciplina = " + txtdisciplina.getText() + "");
+            st.execute("select nome_disciplina from disciplina where nome_disciplina = '" + txtdisciplina.getText() + "'");
 
             ResultSet result = st.getResultSet();
             String nome = "";
             while (result.next()) {
-                nome = result.getString(2);
+                nome = result.getString(1);
             }
             if (nome.equals(txtdisciplina.getText())) {
                 JOptionPane.showMessageDialog(rootPane, "Cadastro feito com Sucesso", "Informativo", JOptionPane.INFORMATION_MESSAGE);
