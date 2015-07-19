@@ -101,7 +101,7 @@ public class Login extends javax.swing.JFrame {
             
             if ("Aluno".equals(selecao)) {
                 
-                st.execute("select ra_aluno from aluno where ra_aluno = "+pslogin.getText()+"");
+                st.execute("select ra_aluno from aluno where ra_aluno = '"+pslogin.getText()+"'");
                 ResultSet result = st.getResultSet();
                 String coluna_ra="";
                 while(result.next()){
@@ -119,7 +119,7 @@ public class Login extends javax.swing.JFrame {
                 }
             } 
             else{
-                st.execute("select siape_coordenador from coordenador where siape_coordenador = "+pslogin.getText()+"");
+                st.execute("select siape_coordenador from coordenador where siape_coordenador = '"+pslogin.getText()+"'");
                 ResultSet result = st.getResultSet();
                 String coluna_siape="";
                 
