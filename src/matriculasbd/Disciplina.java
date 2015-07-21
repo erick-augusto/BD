@@ -128,6 +128,7 @@ public class Disciplina extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtdisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdisciplinaActionPerformed
@@ -143,7 +144,7 @@ public class Disciplina extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTActionPerformed
 
     private void btcadastrodisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btcadastrodisciplinaActionPerformed
-        String stringConnection;
+        //String stringConnection;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection conect = DriverManager.getConnection("jdbc:mysql://localhost/trabalho?user=root");
