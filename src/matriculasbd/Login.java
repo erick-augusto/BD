@@ -137,7 +137,6 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane,"Login Inválido!", "Aviso" ,JOptionPane.ERROR_MESSAGE);
                 }
             }
-            
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
