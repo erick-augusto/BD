@@ -4,6 +4,7 @@ use trabalho;
 create table aluno(
 ra_aluno decimal(8),
 nome_aluno text,
+-- password_aluno varchar(50),              password de login
 primary key(ra_aluno));
 
 insert into aluno (ra_aluno, nome_aluno) values (
@@ -15,6 +16,7 @@ select  * from aluno;
 create table docente(
 siape_docente decimal(6),
 nome_docente char(40),
+-- password_docente varchar(50),           password de login
 primary key(siape_docente));
 insert into docente (siape_docente,nome_docente) values (
 111111,'Bob Sponja');
