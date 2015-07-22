@@ -21,6 +21,8 @@ public class Login extends javax.swing.JFrame {
         rbaluno = new javax.swing.JRadioButton();
         btlogar = new javax.swing.JButton();
         pslogin = new javax.swing.JPasswordField();
+        pss = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -40,28 +42,41 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        pslogin.setToolTipText("");
+
+        pss.setToolTipText("");
+
+        jButton1.setText("Novo Usuário");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(111, 111, 111))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(111, 111, 111))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(140, 140, 140))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(118, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btlogar)
-                        .addGap(165, 165, 165))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(rbcoordenador)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(rbaluno))
-                            .addComponent(pslogin, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(103, 103, 103))))
+                    .addComponent(pslogin, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(btlogar)
+                            .addGap(165, 165, 165))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(pss, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(rbcoordenador)
+                                    .addGap(37, 37, 37)
+                                    .addComponent(rbaluno)))
+                            .addGap(103, 103, 103)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -72,11 +87,15 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbcoordenador)
                     .addComponent(rbaluno))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pslogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btlogar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -95,22 +114,30 @@ public class Login extends javax.swing.JFrame {
         }
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            stringConnection = "jdbc:mysql://localhost/trabalho?user=root";
+            stringConnection = "jdbc:mysql://localhost/trabalho?user=root&password=050893";
             Connection conect = DriverManager.getConnection(stringConnection);
             Statement st = conect.createStatement();
+            Statement st2 = conect.createStatement();
             
             if ("Aluno".equals(selecao)) {
                 
                 st.execute("select ra_aluno from aluno where ra_aluno = '"+pslogin.getText()+"'");
                 ResultSet result = st.getResultSet();
-                String coluna_ra="";
+                String coluna_ra="",coluna_pss="";
                 while(result.next()){
                     coluna_ra=result.getString(1);
                 }
-
-                String try_ra=pslogin.getText();
+                st2.execute("select password_aluno from aluno where ra_aluno = '"+pslogin.getText()+"'");
+                ResultSet resultpss = st2.getResultSet();
                 
-                if(coluna_ra.equals(try_ra)){
+                while(resultpss.next()){
+                    coluna_pss=resultpss.getString(1);
+                }
+                
+                String try_ra=pslogin.getText();
+                String try_pss=pss.getText();
+                
+                if(coluna_ra.equals(try_ra)&&coluna_pss.equals(try_pss)){
                     Matricula aluno = new Matricula();
                     new Matricula().setVisible(true);
                 }
@@ -121,15 +148,22 @@ public class Login extends javax.swing.JFrame {
             else{
                 st.execute("select siape_coordenador from coordenador where siape_coordenador = '"+pslogin.getText()+"'");
                 ResultSet result = st.getResultSet();
-                String coluna_siape="";
+                String coluna_siape="",coluna_pss="";
                 
                 while(result.next()){
                     coluna_siape = result.getString(1);
                 }
-
-                String try_ra=pslogin.getText();
+                st2.execute("select password_docente from coordenador,docente where coordenador.siape_coordenador=docente.siape_docente and siape_coordenador = '"+pslogin.getText()+"'");
+                ResultSet resultpss = st2.getResultSet();
                 
-                if(coluna_siape.equals(try_ra)){
+                while(resultpss.next()){
+                    coluna_pss=resultpss.getString(1);
+                }
+                
+                String try_siape=pslogin.getText();
+                String try_pss=pss.getText();
+                
+                if(coluna_siape.equals(try_siape)&&coluna_pss.equals(try_pss)){
                     Coordenador aluno = new Coordenador();
                     new Coordenador().setVisible(true);
                 }
@@ -178,8 +212,10 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bglogin;
     private javax.swing.JButton btlogar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPasswordField pslogin;
+    private javax.swing.JPasswordField pss;
     private javax.swing.JRadioButton rbaluno;
     private javax.swing.JRadioButton rbcoordenador;
     // End of variables declaration//GEN-END:variables
